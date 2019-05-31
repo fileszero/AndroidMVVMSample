@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //    https://developer.android.com/topic/libraries/data-binding/start?hl=ja#build_environment
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
