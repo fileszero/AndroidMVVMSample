@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.example.mvvmsample.viewModels.NameViewModel"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentName}"
+                tools:text="currentName label"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@={viewModel.currentName}"
+                android:ems="10"
+                android:id="@+id/editText"
+                tools:text="currentName Edit"
+        />
+        <Button
+                android:text="Upper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/buttonUpper"
+                android:onClick="@{()-> viewModel.toUpper()}"
+        />
+        <Button
+                android:text="Lower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()-> viewModel.toLower()}"
+                android:id="@+id/buttonLower"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModel.length)}"
+                tools:text="0"/>
+
+    </LinearLayout>
+</layout>
