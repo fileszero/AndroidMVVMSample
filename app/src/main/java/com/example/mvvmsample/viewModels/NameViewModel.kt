@@ -7,16 +7,15 @@ import androidx.lifecycle.ViewModel
 // https://developer.android.com/topic/libraries/architecture/livedata?hl=ja#create_livedata_objects
 class NameViewModel : ViewModel() {
     val currentName: MutableLiveData<String> by lazy {
-        MutableLiveData<String>().apply { this.value = "!!test NameViewModel!!" }
+        MutableLiveData<String>().apply { this.value = "Test String" }
     }
 
     val length: MutableLiveData<Int> = MutableLiveData()
-
+    private val currentNameObserver = Observer<String> {
+        length.postValue(it.length)
+    }
     init {
-        length.postValue(123)
-        currentName.observeForever(Observer {
-            length.postValue(it.length)
-        })
+        currentName.observeForever(currentNameObserver)
     }
 
     fun toUpper() {
@@ -25,6 +24,11 @@ class NameViewModel : ViewModel() {
 
     fun toLower() {
         currentName.postValue(currentName.value?.toLowerCase())
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        currentName.removeObserver(currentNameObserver)
     }
 
 
