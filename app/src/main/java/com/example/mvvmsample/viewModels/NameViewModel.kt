@@ -1,6 +1,5 @@
 package com.example.mvvmsample.viewModels
 
-import android.util.Log
 import androidx.lifecycle.*
 
 // https://developer.android.com/topic/libraries/architecture/livedata?hl=ja#create_livedata_objects
@@ -9,14 +8,12 @@ class NameViewModel : ViewModel() {
         MutableLiveData<String>().apply { this.value = "Test String" }
     }
 
-    val length = Transformations.switchMap( currentName){
-        Log.i("NameViewModel","Transformations.switchMap( currentName )" )
-        MutableLiveData<Int>().apply {
-            this.value=it.length
-        }
-    }
+    val length = MediatorLiveData<Int>()
 
     init {
+        length.addSource(currentName) { name ->
+            length.value = name.length
+        }
     }
 
     fun toUpper() {
@@ -26,10 +23,5 @@ class NameViewModel : ViewModel() {
     fun toLower() {
         currentName.postValue(currentName.value?.toLowerCase())
     }
-
-    override fun onCleared() {
-        super.onCleared()
-    }
-
 
 }
