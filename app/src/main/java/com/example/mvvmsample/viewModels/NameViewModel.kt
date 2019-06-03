@@ -1,8 +1,7 @@
 package com.example.mvvmsample.viewModels
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 
 // https://developer.android.com/topic/libraries/architecture/livedata?hl=ja#create_livedata_objects
 class NameViewModel : ViewModel() {
@@ -10,12 +9,14 @@ class NameViewModel : ViewModel() {
         MutableLiveData<String>().apply { this.value = "Test String" }
     }
 
-    val length: MutableLiveData<Int> = MutableLiveData()
-    private val currentNameObserver = Observer<String> {
-        length.postValue(it.length)
+    val length = Transformations.switchMap( currentName){
+        Log.i("NameViewModel","Transformations.switchMap( currentName )" )
+        MutableLiveData<Int>().apply {
+            this.value=it.length
+        }
     }
+
     init {
-        currentName.observeForever(currentNameObserver)
     }
 
     fun toUpper() {
@@ -28,7 +29,6 @@ class NameViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        currentName.removeObserver(currentNameObserver)
     }
 
 
